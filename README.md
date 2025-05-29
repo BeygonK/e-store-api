@@ -2,6 +2,11 @@
 
 A RESTful API for an e-commerce platform built with Node.js, Express, and MongoDB.
 
+## Live Demo
+
+- API Base URL: [https://e-store-api-y62k.onrender.com](https://e-store-api-y62k.onrender.com)
+- API Documentation: [https://e-store-api-y62k.onrender.com/api-docs](https://e-store-api-y62k.onrender.com/api-docs)
+
 ## Features
 
 - User authentication and authorization
@@ -10,6 +15,9 @@ A RESTful API for an e-commerce platform built with Node.js, Express, and MongoD
 - MongoDB database integration
 - JWT-based authentication
 - Role-based access control
+- API Documentation with Swagger UI
+- Rate limiting
+- Error handling
 
 ## Prerequisites
 
@@ -52,6 +60,13 @@ npm run dev
 
 ## API Documentation
 
+The API documentation is available at `/api-docs` endpoint. It provides:
+
+- Interactive API testing interface
+- Request/response schemas
+- Authentication requirements
+- Example requests and responses
+
 ### Authentication Endpoints
 
 - POST `/api/auth/register` - Register a new user
@@ -65,6 +80,14 @@ npm run dev
 - POST `/api/products` - Create product (admin only)
 - PUT `/api/products/:id` - Update product (admin only)
 - DELETE `/api/products/:id` - Delete product (admin only)
+
+### Order Endpoints
+
+- GET `/api/orders` - Get all orders (admin) or user's orders
+- POST `/api/orders` - Create a new order
+- GET `/api/orders/:id` - Get order by ID
+- PUT `/api/orders/:id` - Update order status (admin only)
+- DELETE `/api/orders/:id` - Delete order (admin only)
 
 ## Deployment
 
