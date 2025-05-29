@@ -4,6 +4,7 @@ const cors = require("cors");
 const helmet = require("helmet");
 const morgan = require("morgan");
 const connectDB = require("./config/database");
+const { apiLimiter } = require("./middleware/rateLimiter");
 
 const { errorHandler } = require("./middleware/errorHandler");
 const routes = require("./routes");
@@ -21,7 +22,9 @@ app.use(cors());
 app.use(morgan("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-//app.use(rateLimiter); // Apply rate limiting to all routes
+
+// Apply rate limiting to all routes
+app.use(apiLimiter);
 
 // Routes
 app.use("/api", routes);

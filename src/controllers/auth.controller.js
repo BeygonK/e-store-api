@@ -4,7 +4,7 @@ const User = require("../models/User");
 // Generate JWT Token
 const generateToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
-    expiresIn: process.env.JWT_EXPIRE,
+    expiresIn: process.env.JWT_EXPIRE || "30d", // Default to 30 days if not set
   });
 };
 
@@ -30,54 +30,6 @@ exports.register = async (req, res) => {
       lastName,
       email,
       password,
-    });
-
-    // Generate token
-    const token = generateToken(user._id);
-
-    res.status(201).json({
-      success: true,
-      token,
-      user: {
-        id: user._id,
-        firstName: user.firstName,
-        lastName: user.lastName,
-        email: user.email,
-        role: user.role,
-      },
-    });
-  } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: "Server error",
-      error: error.message,
-    });
-  }
-};
-
-// @desc    Register admin (TEMPORARY - REMOVE IN PRODUCTION)
-// @route   POST /api/auth/register-admin
-// @access  Public
-exports.registerAdmin = async (req, res) => {
-  try {
-    const { firstName, lastName, email, password } = req.body;
-
-    // Check if user exists
-    const userExists = await User.findOne({ email });
-    if (userExists) {
-      return res.status(400).json({
-        success: false,
-        message: "User already exists with this email",
-      });
-    }
-
-    // Create admin user
-    const user = await User.create({
-      firstName,
-      lastName,
-      email,
-      password,
-      role: "admin", // Set role to admin
     });
 
     // Generate token

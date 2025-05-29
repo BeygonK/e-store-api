@@ -1,18 +1,14 @@
 const express = require("express");
 const router = express.Router();
-const {
-  register,
-  login,
-  getMe,
-  registerAdmin,
-} = require("../controllers/auth.controller");
+const { register, login, getMe } = require("../controllers/auth.controller");
 const { protect } = require("../middleware/auth");
+const { authLimiter } = require("../middleware/rateLimiter");
+
+// Apply rate limiting to auth routes
+router.use(authLimiter);
 
 router.post("/register", register);
 router.post("/login", login);
 router.get("/me", protect, getMe);
-
-// Temporary admin registration route (REMOVE THIS IN PRODUCTION)
-router.post("/register-admin", registerAdmin);
 
 module.exports = router;
