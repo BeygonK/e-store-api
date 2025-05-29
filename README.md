@@ -1,32 +1,15 @@
-# E-Store Backend API
+# E-Store API
 
-A scalable and robust backend API for an e-commerce platform built with Node.js, Express, and MongoDB.
-
-## Project Structure
-
-```
-src/
-├── config/         # Configuration files
-├── controllers/    # Route controllers
-├── middleware/     # Custom middleware
-├── models/         # Database models
-├── routes/         # Route definitions
-├── services/       # Business logic
-├── utils/          # Utility functions
-└── index.js        # Application entry point
-```
+A RESTful API for an e-commerce platform built with Node.js, Express, and MongoDB.
 
 ## Features
 
 - User authentication and authorization
 - Product management
 - Order processing
-- User management
-- Secure API endpoints
-- Input validation
-- Error handling
-- Logging
-- Database integration
+- MongoDB database integration
+- JWT-based authentication
+- Role-based access control
 
 ## Prerequisites
 
@@ -34,31 +17,34 @@ src/
 - MongoDB
 - npm or yarn
 
+## Environment Variables
+
+Create a `.env` file in the root directory with the following variables:
+
+```env
+NODE_ENV=development
+PORT=5000
+MONGO_URI=your_mongodb_uri
+JWT_SECRET=your_jwt_secret
+JWT_EXPIRE=30d
+```
+
 ## Installation
 
-1. Clone the repository
+1. Clone the repository:
 
 ```bash
 git clone <repository-url>
-cd e-store-backend
+cd e-store
 ```
 
-2. Install dependencies
+2. Install dependencies:
 
 ```bash
 npm install
 ```
 
-3. Create a .env file in the root directory and add the following variables:
-
-```
-PORT=3000
-MONGODB_URI=your_mongodb_uri
-JWT_SECRET=your_jwt_secret
-NODE_ENV=development
-```
-
-4. Start the development server
+3. Start the development server:
 
 ```bash
 npm run dev
@@ -66,7 +52,42 @@ npm run dev
 
 ## API Documentation
 
-The API documentation will be available at `/api-docs` when the server is running.
+### Authentication Endpoints
+
+- POST `/api/auth/register` - Register a new user
+- POST `/api/auth/login` - Login user
+- GET `/api/auth/me` - Get current user
+
+### Product Endpoints
+
+- GET `/api/products` - Get all products
+- GET `/api/products/:id` - Get single product
+- POST `/api/products` - Create product (admin only)
+- PUT `/api/products/:id` - Update product (admin only)
+- DELETE `/api/products/:id` - Delete product (admin only)
+
+## Deployment
+
+### Deploying to Render.com
+
+1. Create a Render account at https://render.com
+
+2. Create a new Web Service:
+
+   - Connect your GitHub repository
+   - Select "Node" as the runtime
+   - Set the build command: `npm install`
+   - Set the start command: `node src/index.js`
+
+3. Add environment variables in Render dashboard:
+
+   - `NODE_ENV=production`
+   - `PORT=10000`
+   - `MONGO_URI=your_mongodb_uri`
+   - `JWT_SECRET=your_jwt_secret`
+   - `JWT_EXPIRE=30d`
+
+4. Deploy!
 
 ## Testing
 
@@ -76,14 +97,6 @@ Run the test suite:
 npm test
 ```
 
-## Contributing
-
-1. Fork the repository
-2. Create your feature branch
-3. Commit your changes
-4. Push to the branch
-5. Create a new Pull Request
-
 ## License
 
-This project is licensed under the MIT License.
+MIT
