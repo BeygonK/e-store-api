@@ -4,11 +4,14 @@ const cors = require("cors");
 const helmet = require("helmet");
 const morgan = require("morgan");
 const connectDB = require("./config/database");
+
 const { errorHandler } = require("./middleware/errorHandler");
 const routes = require("./routes");
 
-// Connect to database
-connectDB();
+// Connect to database only if not in test environment
+if (process.env.NODE_ENV !== "test") {
+  connectDB();
+}
 
 const app = express();
 
@@ -18,6 +21,7 @@ app.use(cors());
 app.use(morgan("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+//app.use(rateLimiter); // Apply rate limiting to all routes
 
 // Routes
 app.use("/api", routes);
@@ -25,7 +29,12 @@ app.use("/api", routes);
 // Error handling
 app.use(errorHandler);
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
+module.exports = app;
+
+// Only start the server if not in test mode
+if (process.env.NODE_ENV !== "test") {
+  const PORT = process.env.PORT || 3000;
+  app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+  });
+}
